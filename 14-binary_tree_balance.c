@@ -7,15 +7,31 @@
  */
 int binary_tree_balance(const binary_tree_t *tree)
 {
-	int l_count, r_count;
+	if (tree)
+	{
+		return (binary_tree_height(tree->left) - binary_tree_height(tree->right));
+	}
+	return (0);
+}
+
+/**
+ *binary_tree_height - Return height of structure
+ *@tree: Root node to start from
+ *Return: The height
+ *
+ */
+size_t binary_tree_height(const binary_tree_t *tree)
+{
+	size_t left_count = 0, count, right_count = 0;
 
 	if (tree == NULL)
 	{
 		return (0);
 	}
-	/*Clculating the heightof both right and left*/
-	l_count = tree->left ? 1 + binary_tree_balance(tree->left) : 0;
-	r_count = tree->right ? 1 + binary_tree_balance(tree->right) : 0;
-	/*Balance Factor (BF) = Height of Left Subtree - Height of Right Subtree*/
-	return (l_count - r_count);
+	/*Increase by one for each recursive call, if not leaf*/
+	left_count = tree->left ? 1 + binary_tree_height(tree->left) : 1;
+	right_count = tree->right ? 1 + binary_tree_height(tree->right) : 1;
+	/*Final by adding current node plus gotten heigh*/
+	count = ((left_count > right_count) ? left_count : right_count);
+	return (count);
 }
